@@ -6,7 +6,7 @@ class GGApi:
         self.beforeDate = beforeDate
 
     def send_query(self):
-        headers = {"Authorization": "Bearer 108f713093eebd8a3153f295565ae22f", "content-type": "application/json"}
+        headers = {"Authorization": "Bearer 108f713093eebd8a3153f295565ae22f"}
         perPage = 100
         coordinates = "33.7454725,-117.86765300000002"
         radius = "80mi"
@@ -28,5 +28,5 @@ class GGApi:
         print(url)
         print(headers)
         print(data)
-        r = requests.post(url=url, headers=headers, data=data)
+        r = requests.post(url=url, headers=headers, json=data)
         return r
