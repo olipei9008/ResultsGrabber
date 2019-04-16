@@ -13,7 +13,7 @@ class GGApi:
     def send_query(self):
 
         # need to edit in auth token before running
-        headers = {"Authorization": "Bearer insert auth token"}
+        headers = {"Authorization": "Bearer insert auth token here"}
 
         # Hardcoded values to find tournaments for SoCal Melee
         perPage = 100
@@ -28,9 +28,10 @@ class GGApi:
                 "{ location: { distanceFrom: $coordinates, distance: $radius }, " \
                 "videogameIds: [ $videogameId ], " \
                 "beforeDate: $beforeDate, afterDate: $afterDate } }) " \
-                "{ nodes { id name city url startAt } } }"
+                "{ nodes { id name city url startAt events { id name numEntrants }} } }"
         variables = "{ \"perPage\": "+str(perPage)+", \"coordinates\": \""+coordinates+"\", " \
-                "\"radius\": \""+radius+"\", \"videogameId\": "+str(vgID)+", \"afterDate\": 1545033600, \"beforeDate\": 1555920000 }"
+                "\"radius\": \""+radius+"\", \"videogameId\": "+str(vgID)+", \"afterDate\":" \
+                " "+str(self.afterDate)+", \"beforeDate\": "+str(self.beforeDate)+" }"
 
         # Finishing up setting up the variables
         url = "https://api.smash.gg/gql/alpha"
@@ -41,4 +42,7 @@ class GGApi:
 
         # Send!
         r = requests.post(url=url, headers=headers, json=data)
+        print(self.afterDate)
+        print(self.beforeDate)
+        print(r.content)
         return r
