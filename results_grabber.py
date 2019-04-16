@@ -33,9 +33,21 @@ def tournament_data_parser(tournament_data):
 
 def main():
 
+    # Get values from config file
+    variablefile = open("variables.txt", "r")
+    authToken = variablefile.readline().strip()
+
+    #print(variablefile.readline())
+    #print(variablefile.readline())
+    date1 = datetime.datetime.strptime(variablefile.readline().strip(), '%m/%d/%Y')
+    date2 = datetime.datetime.strptime(variablefile.readline().strip(), '%m/%d/%Y')
+    variablefile.close()
+    afterDate = int(date1.timestamp())
+    beforeDate = int(date2.timestamp())
+
     # Hardcoded timestamps
-    afterDate = 1545033600
-    beforeDate = 1555398000
+    #afterDate = 1545033600
+    #beforeDate = 1555398000
 
     # Preparing to do some date math
     dateMarkerEnd = datetime.datetime.fromtimestamp(beforeDate)
@@ -52,7 +64,7 @@ def main():
     # Getting the values
 
     while dateMarkerBeg > firstDate:
-        gg_runner = GGApi(int(dateMarkerBeg.timestamp()), int(dateMarkerEnd.timestamp()))
+        gg_runner = GGApi(authToken, int(dateMarkerBeg.timestamp()), int(dateMarkerEnd.timestamp()))
         results = gg_runner.send_query()
         tournament_data = results.json()['data']['tournaments']['nodes']
 
@@ -62,7 +74,7 @@ def main():
         dateMarkerEnd -= one_month
 
     # last iteration
-    gg_runner = GGApi(afterDate, int(dateMarkerEnd.timestamp()))
+    gg_runner = GGApi(authToken, afterDate, int(dateMarkerEnd.timestamp()))
     results = gg_runner.send_query()
     tournament_data = results.json()['data']['tournaments']['nodes']
     tournament_data_parser(tournament_data)

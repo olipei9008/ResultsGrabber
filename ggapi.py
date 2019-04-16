@@ -4,7 +4,8 @@ import requests
 class GGApi:
 
     # For now, only take in dates for getting tournaments in SoCal within the period.
-    def __init__(self, afterDate, beforeDate):
+    def __init__(self, authToken, afterDate, beforeDate):
+        self.authToken = authToken
         self.afterDate = afterDate
         self.beforeDate = beforeDate
 
@@ -12,8 +13,9 @@ class GGApi:
     # Making a query and sending it to smash gg
     def send_query(self):
 
+        bearer = "Bearer " + self.authToken
         # need to edit in auth token before running
-        headers = {"Authorization": "Bearer insert auth token here"}
+        headers = {"Authorization": bearer}
 
         # Hardcoded values to find tournaments for SoCal Melee
         perPage = 100
