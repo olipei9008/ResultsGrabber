@@ -17,7 +17,7 @@ class GGApi:
                 "{ location: { distanceFrom: $coordinates, distance: $radius }, " \
                 "videogameIds: [ $videogameId ], " \
                 "beforeDate: $beforeDate, afterDate: $afterDate } }) " \
-                "{ nodes { id name city } } }"
+                "{ nodes { id name city url startAt } } }"
         variables = "{ \"perPage\": "+str(perPage)+", \"coordinates\": \""+coordinates+"\", " \
                 "\"radius\": \""+radius+"\", \"videogameId\": "+str(vgID)+", \"afterDate\": 1545033600, \"beforeDate\": 1555920000 }"
         url = "https://api.smash.gg/gql/alpha"
