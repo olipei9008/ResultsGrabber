@@ -20,7 +20,7 @@ class GGApi:
         # Hardcoded values to find tournaments for SoCal Melee
         perPage = 100
         coordinates = "33.7454725,-117.86765300000002"
-        radius = "80mi"
+        radius = "150mi"
         vgID = 1 # SSBM
 
         # Using very inelegant string concatenation to create the query + variables

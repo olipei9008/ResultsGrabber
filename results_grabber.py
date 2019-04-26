@@ -7,7 +7,7 @@ def tourney_row_parser(tourney):
 
     # easy
     name = tourney['name']
-    url = "https://smash.gg" + tourney['url'] + "/events/melee-singles/overview"
+    url = "https://smash.gg" + tourney['url']
 
     # medium
     date = datetime.date.fromtimestamp(tourney['startAt'])
@@ -17,6 +17,9 @@ def tourney_row_parser(tourney):
     entrants = 0
     for event in tourney['events']:
         if event['name'] == "Melee Singles":
+            url = url + "/events/melee-singles/overview"
+            entrants = event['numEntrants']
+        elif "Melee Singles" in event['name']:
             entrants = event['numEntrants']
 
     return [isodate, entrants, name, url]
@@ -29,6 +32,10 @@ def tournament_data_parser(tournament_data):
             tourneyrow = tourney_row_parser(tourney)
             if "Weds Night Fights" in tourneyrow[2]:
                 continue
+            elif not tourneyrow[1]:
+                continue
+            elif tourneyrow[1] <= 2:
+                continue
             spamwriter.writerow(tourneyrow)
 
 def main():
@@ -37,8 +44,6 @@ def main():
     variablefile = open("variables.txt", "r")
     authToken = variablefile.readline().strip()
 
-    #print(variablefile.readline())
-    #print(variablefile.readline())
     date1 = datetime.datetime.strptime(variablefile.readline().strip(), '%m/%d/%Y')
     date2 = datetime.datetime.strptime(variablefile.readline().strip(), '%m/%d/%Y')
     variablefile.close()
